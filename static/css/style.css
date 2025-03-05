@@ -1,0 +1,67 @@
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #f8f9fa;
+}
+
+.footer {
+    margin-top: auto;
+}
+
+.card {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.navbar-brand i {
+    margin-right: 8px;
+}
+
+.dashboard-card {
+    transition: transform 0.2s;
+    margin-bottom: 20px;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-5px);
+}
+
+.appointment-list {
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.message-box {
+    border: 1px solid #dee2e6;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+}
+
+.profile-image {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 20px;
+}
+
+.teacher-card {
+    transition: transform 0.2s;
+}
+
+.teacher-card:hover {
+    transform: scale(1.02);
+}
+
+.status-pending {
+    color: #ffc107;
+}
+
+.status-approved {
+    color: #28a745;
+}
+
+.status-cancelled {
+    color: #dc3545;
+}

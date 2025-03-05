@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <img src="https://images.unsplash.com/photo-1522134939204-9b9957145632" 
+                         alt="Teacher Profile" 
+                         class="profile-image">
+                    <h3>{{ current_user.username }}</h3>
+                    <p class="text-muted">{{ current_user.department }} - {{ current_user.subject }}</p>
+                    <a href="{{ url_for('profile') }}" class="btn btn-primary mb-2">
+                        <i class="fas fa-user-edit"></i> Edit Profile
+                    </a>
+                    <a href="{{ url_for('manage_schedule') }}" class="btn btn-success">
+                        <i class="fas fa-calendar-alt"></i> Manage Schedule
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0"><i class="fas fa-calendar-check"></i> Upcoming Appointments</h3>
+                </div>
+                <div class="card-body">
+                    <div class="appointment-list">
+                        {% for appointment in appointments %}
+                        <div class="card mb-3 dashboard-card">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h5 class="card-title">Meeting with {{ appointment.student.username }}</h5>
+                                        <p class="card-text">
+                                            <i class="fas fa-clock"></i> {{ appointment.date.strftime('%B %d, %Y') }} at {{ appointment.time.strftime('%I:%M %p') }}
+                                        </p>
+                                        <p class="card-text"><small class="text-muted">Purpose: {{ appointment.purpose }}</small></p>
+                                    </div>
+                                    <div>
+                                        {% if appointment.status == 'pending' %}
+                                        <button class="btn btn-success btn-sm mb-2" onclick="location.href='{{ url_for('approve_appointment', appointment_id=appointment.id) }}'">
+                                            <i class="fas fa-check"></i> Approve
+                                        </button>
+                                        <button class="btn btn-danger btn-sm" onclick="cancelAppointment({{ appointment.id }})">
+                                            <i class="fas fa-times"></i> Cancel
+                                        </button>
+                                        {% else %}
+                                        <span class="badge bg-{{ 'success' if appointment.status == 'approved' else 'danger' }}">
+                                            {{ appointment.status.title() }}
+                                        </span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Messages Section -->
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h3 class="mb-0"><i class="fas fa-envelope"></i> Messages</h3>
+        </div>
+        <div class="card-body">
+            {% for message in messages %}
+            <div class="message-box">
+                <div class="d-flex justify-content-between">
+                    <h5>From: {{ message.sender.username }}</h5>
+                    <small class="text-muted">{{ message.created_at.strftime('%B %d, %Y %I:%M %p') }}</small>
+                </div>
+                <p>{{ message.content }}</p>
+                <button class="btn btn-primary btn-sm" onclick="location.href='{{ url_for('send_message', receiver_id=message.sender_id) }}'">
+                    <i class="fas fa-reply"></i> Reply
+                </button>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
